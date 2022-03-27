@@ -20,6 +20,7 @@ export const Todolist=(props:TodolistPropsType)=>{
             </div>
             <ul>
                 {props.task.map((t)=>{
+                    debugger
                     return(
                         <li><input type="checkbox" checked={t.isDone}/> <span>{t.title}</span></li>
                     )
