@@ -1,6 +1,7 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
+import React, {useState} from 'react';
 import {filterValueType} from './App';
 import {Button} from './components/Button';
+import {Input} from './components/Input';
 
 
 type TaskType = {
@@ -23,14 +24,15 @@ export function Todolist(props: PropsType) {
         props.addTask(newTitle)
         setNewTitle(' ')
     }
-    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            onClickHandler()
-        }
-    }
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setNewTitle(event.currentTarget.value)
-    }
+    // const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    //     if (event.key === 'Enter') {
+    //         onClickHandler()
+    //     }
+    // }
+    // const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    //     setNewTitle(event.currentTarget.value)
+    // }
+
     const filterHandler = (filterValue: filterValueType) => {
         props.tasksFilter(filterValue)
     }
@@ -39,13 +41,14 @@ export function Todolist(props: PropsType) {
     }
     return <div>
         <h3>{props.title}</h3>
-        <div>
-            <input value={newTitle}
-                   onKeyPress={onKeyPressHandler}
-                   onChange={onChangeHandler}/>
-            {/*<button onClick={onClickHandler}>+</button>*/}
-            <Button name={'+'} callBack={onClickHandler}/>
-        </div>
+        <Input newTitle={newTitle} setNewTitle={setNewTitle} callBack={onClickHandler}/>
+        {/*<FullInput callBack={props.addTask}/>*/}
+        {/*<div>*/}
+        {/*    <input value={newTitle}*/}
+        {/*           onKeyPress={onKeyPressHandler}*/}
+        {/*           onChange={onChangeHandler}/>*/}
+        {/*    /!*<button onClick={onClickHandler}>+</button>*!/*/}
+        <Button name={'+'} callBack={onClickHandler}/>
         <ul>
             {props.tasks.map((el) => {
                 return (
