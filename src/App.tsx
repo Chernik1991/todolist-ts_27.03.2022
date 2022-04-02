@@ -3,6 +3,7 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 
+export type filterValueType="All"|"Active"|"Completed";
 
 function App() {
     let [tasks, setTasks] = useState([
@@ -18,7 +19,7 @@ function App() {
 
     let [valueButton, setValueButton] = useState('All')
 
-    const tasksFilter = (filterValue: string) => {
+    const tasksFilter = (filterValue: filterValueType) => {
         setValueButton(filterValue)
     }
     const addTask=(newTitle:string)=>{
@@ -28,10 +29,10 @@ function App() {
 
     let prokladka = tasks
     if (valueButton === "Active") {
-        prokladka = tasks.filter(el => !el.isDone)
+        prokladka = tasks.filter(el => el.isDone)
     }
     if (valueButton === "Completed") {
-        prokladka = tasks.filter(el => el.isDone)
+        prokladka = tasks.filter(el => !el.isDone)
     }
     return (
         <div className="App">
