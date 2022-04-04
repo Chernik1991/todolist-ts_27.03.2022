@@ -1,66 +1,65 @@
 import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
-import {v1} from 'uuid';
-import {ModalWindow} from './components/ModalWindow';
+import { v1 } from 'uuid';
 
-export type filterValueType="All"|"Active"|"Completed";
+export type FilterValuesType = "all" | "active" | "completed";
 
 function App() {
+
     let [tasks, setTasks] = useState([
-        {id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false}
-    ])
+        { id: v1(), title: "HTML&CSS", isDone: true },
+        { id: v1(), title: "JS", isDone: true },
+        { id: v1(), title: "ReactJS", isDone: false },
+        { id: v1(), title: "Rest API", isDone: false },
+        { id: v1(), title: "GraphQL", isDone: false },
+    ]);
 
-    const removeTask = (newId: string) => {
-        let filtered = tasks.filter((el) => el.id !== newId)
-        setTasks(filtered)
-    }
-
-    let [valueButton, setValueButton] = useState('All')
-
-    const tasksFilter = (filterValue: filterValueType) => {
-        setValueButton(filterValue)
-    }
-    const addTask=(newTitle:string)=>{
-        let newTask={id: v1(), title: newTitle, isDone: false}
-        setTasks([newTask,...tasks])
+    function removeTask(id: string) {
+        let filteredTasks = tasks.filter(t => t.id !== id);
+        setTasks(filteredTasks);
     }
 
-    let prokladka = tasks
-    if (valueButton === "Active") {
-        prokladka = tasks.filter(el => el.isDone)
+    function addTask(title: string) {
+        let task = { id: v1(), title: title, isDone: false };
+        let newTasks = [task, ...tasks];
+        setTasks(newTasks);
     }
-    if (valueButton === "Completed") {
-        prokladka = tasks.filter(el => !el.isDone)
+    const changeStatusCheckbox=(currentId:string,currentEvent:boolean)=>{
+        // let currentObject=tasks.find(el=>el.id===currentId)
+        // if(currentObject){
+        //     currentObject.isDone=currentEvent
+        //     setTasks([...tasks])
+        // }
+setTasks(tasks.map((el)=>el.id===currentId ? {...el,isDone:currentEvent}:el))
     }
+
+    let [filter, setFilter] = useState<FilterValuesType>("all");
+
+    let tasksForTodolist = tasks;
+
+    if (filter === "active") {
+        tasksForTodolist = tasks.filter(t => !t.isDone);
+    }
+    if (filter === "completed") {
+        tasksForTodolist = tasks.filter(t => t.isDone);
+    }
+
+    function changeFilter(value: FilterValuesType) {
+        setFilter(value);
+    }
+
+
+
     return (
         <div className="App">
-            {/*<ModalWindow name={'Window1'}>*/}
-            {/*    {*/}
-            {/*        <>*/}
-            {/*            <input type='text'/>*/}
-            {/*            <input type='text'/>*/}
-            {/*            <input type='checkbox'/>*/}
-            {/*        </>*/}
-            {/*    }*/}
-            {/*</ModalWindow>*/}
-            {/*<ModalWindow name={'Window22'}>*/}
-            {/*    {*/}
-            {/*        <>*/}
-            {/*            <button>xxxx</button>*/}
-            {/*            <button>xxxx</button>*/}
-            {/*            <input type='checkbox'/>*/}
-            {/*        </>*/}
-            {/*    }*/}
-            {/*</ModalWindow>*/}
-            <Todolist
-                title={"What to learn"}
-                tasks={prokladka}
-                removeTask={removeTask}
-                tasksFilter={tasksFilter}
-                addTask={addTask}
+            <Todolist title="What to learn"
+                      tasks={tasksForTodolist}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter}
+                      addTask={addTask}
+                      filter={filter}
+                      changeStatusCheckbox={changeStatusCheckbox}
             />
         </div>
     );
