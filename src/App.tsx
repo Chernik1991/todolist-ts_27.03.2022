@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -130,7 +131,7 @@ function App() {
     return (
         <div className="App">
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar style={{backgroundColor:"black"}} >
                     <IconButton
                         size="large"
                         edge="start"
@@ -147,7 +148,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container>
+                <Grid container style={{padding:"20px"}}>
                     <AddItemForm addItem={addTodolist}/>
                 </Grid>
                 <Grid container spacing={8}>
@@ -164,6 +165,7 @@ function App() {
                             }
 
                             return <Grid item>
+                                <Paper style={{padding: "10"}}>
                                 <Todolist
                                     key={tl.id}
                                     id={tl.id}
@@ -178,6 +180,7 @@ function App() {
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodolistTitle={changeTodolistTitle}
                                 />
+                                </Paper>
                             </Grid>
                         })
                     }
